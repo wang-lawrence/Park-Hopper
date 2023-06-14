@@ -70,7 +70,7 @@ function updateFilteredImg(event) {
 // }
 
 function getData() {
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=20'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=50'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
