@@ -16,20 +16,21 @@ label {
   padding: 0.5vh 2vw;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  height: 7vw;
+  height: min(6vw, 2.5rem);
 }
 
 #activity {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   max-width: 14rem;
-  height: 7vw;
+  height: min(6vw, 2.5rem);
   padding: 0.5vh 2vw;
 }
 
 .row-end {
   display: flex;
   justify-content: center;
+  align-items: center;
 
   /* justify-content: right; */
 }
@@ -37,6 +38,7 @@ label {
 .row-center {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .margin-top-1rem {
@@ -73,21 +75,3 @@ label {
     column-count: 3;
   }
 }
-
-/* .row-nowrap {
-  display: flex;
-  flex-wrap: none;
-} */
-
-/* .navbar-header {
-  float: left;
-} */
-
-/* .align-self-end {
-  align-self: flex-end;
-} */
-
-/* .navbar-right {
-  float: right;
-  margin-right: 15px;
-} */

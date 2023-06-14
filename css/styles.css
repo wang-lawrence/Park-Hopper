@@ -2,10 +2,10 @@
   border-radius: 2rem;
   border: none;
   max-width: 10rem;
-  padding: 0.5vh 5vw;
+  padding: 0 5vw;
   appearance: none;
   background-color: #a5cbc3;
-  font-size: min(calc(0rem + 4vw), 2rem);
+  font-size: min(4vw, 2rem);
 }
 
 #activity {
@@ -13,11 +13,11 @@
   border: none;
   appearance: none;
   background-color: #a5cbc3;
-  font-size: calc(0.5rem + 1.5vw);
+  font-size: min(2.5vw, 1.5rem);
 }
 
 label {
-  font-size: 2.5vw;
+  font-size: min(2.2vw, 1.5rem);
   color: #100b00;
 }
 
@@ -44,11 +44,6 @@ select:active {
 .green-text {
   color: #efffc8;
 }
-
-/* .dark-text {
-  color: #100b00;
-  font-size: 1.2rem;
-} */
 
 .proza-bold {
   font-family: "Proza Libre", sans-serif;
