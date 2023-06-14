@@ -1,0 +1,68 @@
+#state {
+  border-radius: 2rem;
+  border: none;
+  max-width: 10rem;
+  appearance: none;
+  background-color: #a5cbc3;
+  font-size: min(4vw, 2rem);
+}
+
+#activity {
+  border-radius: 2rem;
+  border: none;
+  appearance: none;
+  background-color: #a5cbc3;
+  font-size: min(2.5vw, 1.5rem);
+}
+
+label {
+  font-size: min(2.2vw, 1.5rem);
+  color: #100b00;
+}
+
+select:active {
+  font-size: 1rem;
+}
+
+.gallery-container img {
+  border-radius: 1rem;
+}
+
+.background-dark {
+  background-color: #100b00;
+}
+
+.navbar-nav {
+  font-size: large;
+}
+
+.logo-green {
+  color: #85cb33;
+}
+
+.green-text {
+  color: #efffc8;
+}
+
+.proza-bold {
+  font-family: "Proza Libre", sans-serif;
+  font-weight: bold;
+}
+
+.proza-normal {
+  font-family: "Proza Libre", sans-serif;
+  font-weight: normal;
+}
+
+.lilita {
+  font-family: "Lilita One", sans-serif;
+  letter-spacing: 0.1rem;
+}
+
+.font-size-1halfrem {
+  font-size: 1.5rem;
+}
+
+.font-size-2rem {
+  font-size: 2rem;
+}

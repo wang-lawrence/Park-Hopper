@@ -1,0 +1,75 @@
+.container-fluid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.filters {
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+}
+
+label {
+  margin-bottom: 0;
+}
+
+#state {
+  padding: 0 min(5vw, 3.5rem);
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  height: min(6vw, 2.7rem);
+}
+
+#activity {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  max-width: 14rem;
+  height: min(6vw, 2.7rem);
+  padding: 0.5vh 2vw;
+}
+
+.row-end {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.margin-top-1rem {
+  margin-top: 1rem;
+}
+
+.margin-right-halfrem {
+  margin-right: 0.5rem;
+}
+
+.gallery-container {
+  column-count: 2;
+  column-gap: 0.2rem;
+}
+
+.gallery-container img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.2rem;
+}
+
+@media screen and (min-width: 576px) {
+  .row-end {
+    display: flex;
+    justify-content: right;
+  }
+
+  .row-center {
+    display: flex;
+    justify-content: left;
+  }
+
+  .gallery-container {
+    column-count: 3;
+  }
+}
