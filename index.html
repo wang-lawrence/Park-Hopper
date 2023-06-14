@@ -5,16 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
   <link rel="icon" href="images/favicon.ico">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+   integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" /> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Proza+Libre:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header class="background-dark">
+    <nav class="navbar">
+      <div class="container-fluid ">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><i class="fa-solid fa-mountain logo-green"></i><span class="proza-bold green-text"> Park Hopper</span></a>
+        </div>
+        <ul class="nav navbar-nav navbar-right navbar-text" >
+          <li class=""><i class="fa-solid fa-rectangle-list green-text"></i></li>
+        </ul>
+      </div>
+    </nav>
   </header>
   <main>
+    <div class="container-fluid" data-view="gallery">
+      <div class="row filters gx-9">
+        <div class="col-sm">
+          <div class="row-end">
+            <label for="state" class="proza-normal dark-text text-center align-center margin-right-halfrem mt-3">Where to Go?</label>
+            <select class="text-center lilita align-middle font-size-2rem" id="state">
+              <option value="ca">CA</option>
+              <option value="ak">AK</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm ">
+          <div class="row-center">
+            <label for="activity" class="proza-normal dark-text text-center margin-right-halfrem mt-3">What to Do?</label>
+            <select class="text-center lilita align-middle font-size-1halfrem" id="activity">
+              <option value="hiking">Hiking</option>
+              <option value="bird watching">Bird Watching</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-container">
+        <!-- <img src="https://archives.bulbagarden.net/media/upload/f/fb/0001Bulbasaur.png">
+        <img src="https://archives.bulbagarden.net/media/upload/8/81/0002Ivysaur.png">
+        <img src="https://archives.bulbagarden.net/media/upload/6/6b/0003Venusaur.png">
+        <img src="https://archives.bulbagarden.net/media/upload/2/27/0004Charmander.png">
+        <img src="https://archives.bulbagarden.net/media/upload/0/05/0005Charmeleon.png">
+        <img src="https://archives.bulbagarden.net/media/upload/3/38/0006Charizard.png">
+        <img src="https://archives.bulbagarden.net/media/upload/f/fb/0001Bulbasaur.png">
+        <img src="https://archives.bulbagarden.net/media/upload/8/81/0002Ivysaur.png">
+        <img src="https://archives.bulbagarden.net/media/upload/6/6b/0003Venusaur.png">
+        <img src="https://archives.bulbagarden.net/media/upload/2/27/0004Charmander.png"> -->
+
+
+
+      </div>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
+
+
+    <!-- <div class="container-fliud">
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="row-nowrap">
+                <h4 class="proza-bold green-text"><i class="fa-solid fa-mountain logo-green"></i> Park Hopper</h4>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <i class="fa-solid fa-rectangle-list green-text"></i>
+            </div>
+          </divnavbar-inverse>
+        </div> -->
