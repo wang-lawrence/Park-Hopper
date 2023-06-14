@@ -1,7 +1,7 @@
 const parks = [];
 
 function getData() {
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?parkCode=mora&limit=50'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=150'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl); // use LFZ proxy to hit the API
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
