@@ -14,6 +14,7 @@ function getData() {
         for (let j = 0; j < xhr.response.data[i].images.length; j++) { // for each park data object we append all the images to the gallery and assign a data-name to be able to query the park details later
           const $img = document.createElement('img');
           $img.setAttribute('src', xhr.response.data[i].images[j].url);
+          $img.setAttribute('alt', `${xhr.response.data[i].fullName} image`);
           $img.setAttribute('loading', 'lazy');
           $img.setAttribute('data-park-name', xhr.response.data[i].name);
           $galleryContainer.appendChild($img);
