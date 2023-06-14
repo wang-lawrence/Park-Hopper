@@ -1,4 +1,4 @@
-const parks = [];
+const nationalParks = [];
 const $galleryContainer = document.querySelector('.gallery-container'); // query for the gallery container to add images to later
 const $stateDD = document.querySelector('#state');
 const $activtyDD = document.querySelector('#activity');
@@ -16,7 +16,7 @@ function updateFilteredImg(event) {
   while ($galleryContainer.firstChild) {
     $galleryContainer.removeChild($galleryContainer.firstChild);
   }
-  const parksFilteredState = parks.filter(parks => {
+  const parksFilteredState = nationalParks.filter(parks => {
     if (selState === 'State') {
       return true;
     } else {
@@ -25,49 +25,22 @@ function updateFilteredImg(event) {
   });
 
   const parksFilteredActivity = parksFilteredState.filter(parks => {
-    for (let i = 0; i < parks.activities.length; i++) {
-      if (parks.activities[i] === selActivity) {
-        return true;
+    if (selActivity === 'Activity') {
+      return true;
+    } else {
+      for (let i = 0; i < parks.activities.length; i++) {
+        if (parks.activities[i].name === selActivity) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
   });
 
   for (let i = 0; i < parksFilteredActivity.length; i++) {
     renderImg(parksFilteredActivity[i]);
   }
 }
-
-//   if (selState === 'State' && selActivity === 'Activity') {
-//     for (let i = 0; i < parks.length; i++) {
-//       renderImg(parks[i]);
-//     }
-//   } else if (selState === 'State' && selActivity !== 'Activity') {
-//     for (let i = 0; i < parks.length; i++) {
-//       if (parks[i].states.includes(selState)) {
-//         renderImg(parks[i]);
-//       }
-//     }
-//   }
-// }
-
-// function updateActivityImg(event) {
-//   const selActivity = $activtyDD.value;
-//   while ($galleryContainer.firstChild) {
-//     $galleryContainer.removeChild($galleryContainer.firstChild);
-//   }
-//   if (selActivity === 'State') {
-//     for (let i = 0; i < parks.length; i++) {
-//       renderImg(parks[i]);
-//     }
-//   } else {
-//     for (let i = 0; i < parks.length; i++) {
-//       if (parks[i].states === selActivity) {
-//         renderImg(parks[i]);
-//       }
-//     }
-//   }
-// }
 
 function getData() {
   const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=50'); // API endpoint for parks
@@ -82,7 +55,7 @@ function getData() {
       if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
         // const parkObj = {};
         // parkObj.fullName = xhr.response.data[i].fullName;
-        parks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
+        nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
 
         uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
         renderImg(xhr.response.data[i]);
@@ -112,7 +85,7 @@ function getData() {
       $activtyDD.appendChild($option);
     }
 
-    const parksJSON = JSON.stringify(parks);
+    const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
   });
   xhr.send();
