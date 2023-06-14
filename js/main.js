@@ -1,30 +1,130 @@
 const parks = [];
 const $galleryContainer = document.querySelector('.gallery-container'); // query for the gallery container to add images to later
+const $stateDD = document.querySelector('#state');
+const $activtyDD = document.querySelector('#activity');
+let states = [];
+let activities = [];
+
+$stateDD.addEventListener('input', updateFilteredImg);
+$activtyDD.addEventListener('input', updateFilteredImg);
+
+getData();
+
+function updateFilteredImg(event) {
+  const selState = $stateDD.value;
+  const selActivity = $activtyDD.value;
+  while ($galleryContainer.firstChild) {
+    $galleryContainer.removeChild($galleryContainer.firstChild);
+  }
+  const parksFilteredState = parks.filter(parks => {
+    if (selState === 'State') {
+      return true;
+    } else {
+      return parks.states.includes(selState);
+    }
+  });
+
+  const parksFilteredActivity = parksFilteredState.filter(parks => {
+    for (let i = 0; i < parks.activities.length; i++) {
+      if (parks.activities[i] === selActivity) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  for (let i = 0; i < parksFilteredActivity.length; i++) {
+    renderImg(parksFilteredActivity[i]);
+  }
+}
+
+//   if (selState === 'State' && selActivity === 'Activity') {
+//     for (let i = 0; i < parks.length; i++) {
+//       renderImg(parks[i]);
+//     }
+//   } else if (selState === 'State' && selActivity !== 'Activity') {
+//     for (let i = 0; i < parks.length; i++) {
+//       if (parks[i].states.includes(selState)) {
+//         renderImg(parks[i]);
+//       }
+//     }
+//   }
+// }
+
+// function updateActivityImg(event) {
+//   const selActivity = $activtyDD.value;
+//   while ($galleryContainer.firstChild) {
+//     $galleryContainer.removeChild($galleryContainer.firstChild);
+//   }
+//   if (selActivity === 'State') {
+//     for (let i = 0; i < parks.length; i++) {
+//       renderImg(parks[i]);
+//     }
+//   } else {
+//     for (let i = 0; i < parks.length; i++) {
+//       if (parks[i].states === selActivity) {
+//         renderImg(parks[i]);
+//       }
+//     }
+//   }
+// }
 
 function getData() {
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=500'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=20'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
+  const uniqueStates = new Set();
+  const uniqueActivities = new Set();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl); // use LFZ proxy to hit the API
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (let i = 0; i < xhr.response.data.length; i++) {
       if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
+        // const parkObj = {};
+        // parkObj.fullName = xhr.response.data[i].fullName;
         parks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
-        for (let j = 0; j < xhr.response.data[i].images.length; j++) { // for each park data object we append all the images to the gallery and assign a data-name to be able to query the park details later
-          const $img = document.createElement('img');
-          $img.setAttribute('src', xhr.response.data[i].images[j].url);
-          $img.setAttribute('alt', `${xhr.response.data[i].fullName} image`);
-          $img.setAttribute('loading', 'lazy');
-          $img.setAttribute('data-park-name', xhr.response.data[i].name);
-          $galleryContainer.appendChild($img);
+
+        uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
+        renderImg(xhr.response.data[i]);
+
+        // xhr.response.data[i].activitiesArr = ''; // create an activities string so it's easier to work with the filter
+        for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
+          uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
+          // xhr.response.data[i].activitiesArr += xhr.response.data[i].activities[k].name + ', ';
         }
       }
+      // console.log(xhr.response.data[i]);
     }
+    states = [...uniqueStates].sort();
+    activities = [...uniqueActivities].sort();
+
+    for (let i = 0; i < states.length; i++) {
+      const $option = document.createElement('option');
+      $option.setAttribute('value', states[i]);
+      $option.textContent = states[i];
+      $stateDD.appendChild($option);
+    }
+
+    for (let i = 0; i < activities.length; i++) {
+      const $option = document.createElement('option');
+      $option.setAttribute('value', activities[i]);
+      $option.textContent = activities[i];
+      $activtyDD.appendChild($option);
+    }
+
     const parksJSON = JSON.stringify(parks);
     localStorage.setItem('parks', parksJSON);
   });
   xhr.send();
 }
 
-getData();
+function renderImg(parkObj) {
+  for (let j = 0; j < parkObj.images.length; j++) { // for each park data object we append all the images to the gallery and assign a data-name to be able to query the park details later
+    const $img = document.createElement('img');
+    $img.setAttribute('src', parkObj.images[j].url);
+    $img.setAttribute('alt', `${parkObj.fullName} image`);
+    $img.setAttribute('loading', 'lazy');
+    $img.setAttribute('data-park-name', parkObj.name);
+    $galleryContainer.appendChild($img);
+  }
+}

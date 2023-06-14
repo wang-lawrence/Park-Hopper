@@ -4,7 +4,7 @@
   max-width: 10rem;
   appearance: none;
   background-color: #a5cbc3;
-  font-size: min(4vw, 2rem);
+  font-size: min(3vw, 1.8rem);
 }
 
 #activity {
@@ -20,7 +20,11 @@ label {
   color: #100b00;
 }
 
-select:active {
+#state:active {
+  font-size: 1rem;
+}
+
+#activity:active {
   font-size: 1rem;
 }
 
