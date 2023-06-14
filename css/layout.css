@@ -13,17 +13,17 @@ label {
 }
 
 #state {
-  padding: 0.5vh 2vw;
+  padding: 0 min(5vw, 3.5rem);
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  height: min(6vw, 2.5rem);
+  height: min(6vw, 2.7rem);
 }
 
 #activity {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   max-width: 14rem;
-  height: min(6vw, 2.5rem);
+  height: min(6vw, 2.7rem);
   padding: 0.5vh 2vw;
 }
 
