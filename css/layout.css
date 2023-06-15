@@ -22,8 +22,10 @@ label {
 #activity {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  width: 25vw;
   max-width: 14rem;
-  height: min(6vw, 2.8rem);
+  height: 6vw;
+  max-height: 2.7rem;
   padding: 0.5vh 2vw;
 }
 

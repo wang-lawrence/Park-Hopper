@@ -43,7 +43,7 @@ function updateFilteredImg(event) {
 }
 
 function getData() {
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=50'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=450'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -53,20 +53,14 @@ function getData() {
   xhr.addEventListener('load', function () {
     for (let i = 0; i < xhr.response.data.length; i++) {
       if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
-        // const parkObj = {};
-        // parkObj.fullName = xhr.response.data[i].fullName;
         nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
-
         uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
         renderImg(xhr.response.data[i]);
 
-        // xhr.response.data[i].activitiesArr = ''; // create an activities string so it's easier to work with the filter
         for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
           uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-          // xhr.response.data[i].activitiesArr += xhr.response.data[i].activities[k].name + ', ';
         }
       }
-      // console.log(xhr.response.data[i]);
     }
     states = [...uniqueStates].sort();
     activities = [...uniqueActivities].sort();
