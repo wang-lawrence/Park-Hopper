@@ -2,6 +2,8 @@ const nationalParks = [];
 const $galleryContainer = document.querySelector('.gallery-container'); // query for the gallery container to add images to later
 const $stateDD = document.querySelector('#state');
 const $activtyDD = document.querySelector('#activity');
+const $spinnerContainer = document.querySelector('.spinner-container');
+
 let states = [];
 let activities = [];
 
@@ -9,6 +11,15 @@ $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
 
 getData();
+
+function showSpinner() {
+  $spinnerContainer.classList.remove('hidden');
+  $galleryContainer.classList.add('hidden');
+}
+function hideSpinner() {
+  $spinnerContainer.classList.add('hidden');
+  $galleryContainer.classList.remove('hidden');
+}
 
 function updateFilteredImg(event) {
   const selState = $stateDD.value;
@@ -37,13 +48,16 @@ function updateFilteredImg(event) {
     }
   });
 
+  showSpinner();
   for (let i = 0; i < parksFilteredActivity.length; i++) {
     renderImg(parksFilteredActivity[i]);
   }
+  hideSpinner();
 }
 
 function getData() {
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=450'); // API endpoint for parks
+  showSpinner();
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=500'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -81,6 +95,8 @@ function getData() {
 
     const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
+
+    hideSpinner();
   });
   xhr.send();
 }
@@ -90,7 +106,6 @@ function renderImg(parkObj) {
     const $img = document.createElement('img');
     $img.setAttribute('src', parkObj.images[j].url);
     $img.setAttribute('alt', `${parkObj.fullName} image`);
-    $img.setAttribute('loading', 'lazy');
     $img.setAttribute('data-park-name', parkObj.name);
     $galleryContainer.appendChild($img);
   }
