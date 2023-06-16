@@ -3,14 +3,32 @@ const $galleryContainer = document.querySelector('.gallery-container'); // query
 const $stateDD = document.querySelector('#state');
 const $activtyDD = document.querySelector('#activity');
 const $spinnerContainer = document.querySelector('.spinner-container');
-
+const $galleryView = document.querySelector('[data-view="gallery"]');
+const $parkDetailsView = document.querySelector('[data-view="park-details"]');
+const $parkHeader = document.querySelector('.park-header');
+const $parkDesc = document.querySelector('.park-desc');
+const $parkActivities = document.querySelector('.park-activities');
+const $parkImgContainer = document.querySelector('.park-detail-img-container');
 let states = [];
 let activities = [];
 
 $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
+$galleryContainer.addEventListener('click', showParkDetail);
 
 getData();
+
+function showParkDetail(event) {
+  const selParkName = event.target.getAttribute('data-park-name');
+  const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
+  $parkHeader.setAttribute('href', selParkObj.url);
+  $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replace(',', '/')}`;
+  $parkDesc.textContent = selParkObj.description;
+  $parkActivities.textContent = `Things to do: ${selParkObj.activities.map(act => act.name).join(', ')}`;
+  renderImg(selParkObj, $parkImgContainer);
+  $galleryView.classList.add('hidden');
+  $parkDetailsView.classList.remove('hidden');
+}
 
 function showSpinner() {
   $spinnerContainer.classList.remove('hidden');
@@ -50,14 +68,14 @@ function updateFilteredImg(event) {
 
   showSpinner();
   for (let i = 0; i < parksFilteredActivity.length; i++) {
-    renderImg(parksFilteredActivity[i]);
+    renderImg(parksFilteredActivity[i], $galleryContainer);
   }
   hideSpinner();
 }
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=20'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -69,7 +87,7 @@ function getData() {
       if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
         nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
         uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-        renderImg(xhr.response.data[i]);
+        renderImg(xhr.response.data[i], $galleryContainer);
 
         for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
           uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
@@ -101,12 +119,12 @@ function getData() {
   xhr.send();
 }
 
-function renderImg(parkObj) {
+function renderImg(parkObj, parent) {
   for (let j = 0; j < parkObj.images.length; j++) { // for each park data object we append all the images to the gallery and assign a data-name to be able to query the park details later
     const $img = document.createElement('img');
     $img.setAttribute('src', parkObj.images[j].url);
     $img.setAttribute('alt', `${parkObj.fullName} image`);
     $img.setAttribute('data-park-name', parkObj.name);
-    $galleryContainer.appendChild($img);
+    parent.appendChild($img);
   }
 }

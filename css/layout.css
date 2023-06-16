@@ -91,6 +91,14 @@ label {
   max-width: 550px;
 }
 
+.park-activities {
+  max-width: 550px;
+}
+
+.desktop-heart {
+  display: none;
+}
+
 @media screen and (min-width: 576px) {
   .container-fluid {
     max-width: 1000px;
@@ -126,6 +134,14 @@ label {
   #activity {
     width: 12rem;
     height: 2.5rem;
+  }
+
+  .mobile-heart {
+    display: none;
+  }
+
+  .desktop-heart {
+    display: inline;
   }
 }
 

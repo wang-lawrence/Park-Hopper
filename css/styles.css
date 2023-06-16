@@ -37,6 +37,10 @@ label {
   background-color: #100b00;
 }
 
+.dark-text {
+  color: #100b00;
+}
+
 .navbar-nav {
   font-size: large;
 }
@@ -64,8 +68,17 @@ label {
   letter-spacing: 0.1rem;
 }
 
+.park-header:link,
+.park-header:visited {
+  color: #100b00;
+}
+
 .park-desc {
   font-size: 0.8rem;
+}
+
+.park-activities {
+  font-size: 0.6rem;
 }
 
 @media screen and (min-width: 576px) {
@@ -113,4 +126,9 @@ label {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.desktop-heart {
+  margin-left: 1rem;
+  font-size: 1.5rem;
 }
