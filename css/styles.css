@@ -4,7 +4,7 @@
   max-width: 10rem;
   appearance: none;
   background-color: #a5cbc3;
-  font-size: min(4vw, 2rem);
+  font-size: 1rem;
 }
 
 #activity {
@@ -12,15 +12,19 @@
   border: none;
   appearance: none;
   background-color: #a5cbc3;
-  font-size: min(2.5vw, 1.5rem);
+  font-size: 0.9rem;
 }
 
 label {
-  font-size: min(2.2vw, 1.5rem);
+  font-size: 0.9rem;
   color: #100b00;
 }
 
-select:active {
+#state:active {
+  font-size: 1rem;
+}
+
+#activity:active {
   font-size: 1rem;
 }
 
@@ -59,10 +63,49 @@ select:active {
   letter-spacing: 0.1rem;
 }
 
-.font-size-1halfrem {
-  font-size: 1.5rem;
+@media screen and (min-width: 576px) {
+  #state {
+    font-size: 1.1rem;
+  }
+
+  #activity {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 1rem;
+  }
 }
 
-.font-size-2rem {
-  font-size: 2rem;
+@media screen and (min-width: 768px) {
+  #state {
+    font-size: 1.5rem;
+  }
+
+  #activity {
+    font-size: 1.4rem;
+  }
+
+  label {
+    font-size: 1.2rem;
+  }
+}
+
+.spinner {
+  border: 0.5rem solid #f3f3f3;
+  border-top: 0.6rem solid #3498db;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

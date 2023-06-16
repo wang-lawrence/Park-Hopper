@@ -1,11 +1,15 @@
+.hidden {
+  display: none;
+}
+
 .container-fluid {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .filters {
-  margin-top: 2vw;
-  margin-bottom: 2vw;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 label {
@@ -13,18 +17,18 @@ label {
 }
 
 #state {
-  padding: 0 min(5vw, 3.5rem);
+  padding: 0 1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  height: min(6vw, 2.7rem);
+  height: 1.5rem;
+  max-width: 15rem;
 }
 
 #activity {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  max-width: 14rem;
-  height: min(6vw, 2.7rem);
-  padding: 0.5vh 2vw;
+  width: 9rem;
+  height: 1.5rem;
 }
 
 .row-end {
@@ -48,14 +52,19 @@ label {
 }
 
 .gallery-container {
-  column-count: 2;
-  column-gap: 0.2rem;
+  /* changed from column count to flex container so images load without flicker,
+  if switching back in the future need to set column count and column gap */
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .gallery-container img {
-  width: 100%;
+  width: 49.9%;
   height: auto;
   margin-bottom: 0.2rem;
+  object-fit: cover;
 }
 
 @media screen and (min-width: 576px) {
@@ -69,7 +78,60 @@ label {
     justify-content: left;
   }
 
-  .gallery-container {
-    column-count: 3;
+  .gallery-container img {
+    /* changed from column count to flex container */
+    width: 32.9%;
   }
+
+  #state {
+    width: 6rem;
+    height: 2.5rem;
+  }
+
+  #activity {
+    width: 12rem;
+    height: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #state {
+    width: 8rem;
+    height: 3rem;
+  }
+
+  #activity {
+    width: 17rem;
+    height: 3rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  #activity {
+    width: 19rem;
+    height: 3rem;
+  }
+
+  .gallery-container img {
+    /* changed from column count to flex container */
+    width: 24.9%;
+  }
+
+  .filters {
+    padding: 0 4rem;
+  }
+
+  .row-center {
+    margin-left: -2rem;
+  }
+
+  .row-end {
+    justify-content: center;
+  }
+}
+
+.loading {
+  line-height: 3rem;
+  margin-right: 1rem;
+  font-size: 1.5rem;
 }

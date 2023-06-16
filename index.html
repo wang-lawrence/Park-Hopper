@@ -34,26 +34,29 @@
   <main>
     <div class="container-fluid" data-view="gallery">
       <div class="row filters gx-9">
-        <div class="col-sm-6">
+        <div class="col-sm-5 col-lg-6">
           <div class="row-end">
-            <label for="state" class="proza-normal dark-text text-center align-center margin-right-halfrem">Where to Go?</label>
-            <select class="text-center lilita align-middle font-size-2rem" id="state">
-              <option value="ca">CA</option>
-              <option value="ak">AK</option>
+            <label for="state" class="proza-normal dark-text text-center align-center margin-right-halfrem">Where to Go</label>
+            <select class="text-center lilita align-middle" id="state">
+              <option value="State">&lt;State&gt;</option>
             </select>
           </div>
         </div>
-        <div class="col-sm-6 ">
+        <div class="col-sm-7 col-lg-6">
           <div class="row-center">
-            <label for="activity" class="proza-normal dark-text text-center margin-right-halfrem">What to Do?</label>
-            <select class="text-center lilita align-middle font-size-1halfrem" id="activity">
-              <option value="hiking">Hiking</option>
-              <option value="bird watching">Bird Watching</option>
+            <label for="activity" class="proza-normal dark-text text-center margin-right-halfrem">What to Do</label>
+            <select class="text-center lilita align-middle" id="activity">
+              <option value="Activity">&lt;Activity&gt;</option>
             </select>
           </div>
         </div>
       </div>
-      <div class="gallery-container">
+      <div class="gallery-container ">
+      </div>
+      <div class="spinner-container row justify-content-center align-middle mt-5 hidden">
+        <p class="loading">Loading Pictures</p>
+        <div class="spinner">
+        </div>
       </div>
     </div>
   </main>
