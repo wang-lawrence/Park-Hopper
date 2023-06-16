@@ -57,7 +57,7 @@ function updateFilteredImg(event) {
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=500'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();

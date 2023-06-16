@@ -2,9 +2,14 @@
   display: none;
 }
 
+.navbar {
+  padding: 0.5rem 0;
+}
+
 .container-fluid {
   max-width: 1000px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .filters {
@@ -43,6 +48,10 @@ label {
   align-items: center;
 }
 
+.line-height {
+  line-height: 1.5rem;
+}
+
 .margin-top-1rem {
   margin-top: 1rem;
 }
@@ -67,7 +76,28 @@ label {
   object-fit: cover;
 }
 
+.park-detail-img-container {
+  column-count: 2;
+  column-gap: 0.1rem;
+}
+
+.park-detail-img-container img {
+  width: 100%;
+  margin-bottom: 0.2rem;
+  object-fit: cover;
+}
+
+.park-desc {
+  max-width: 550px;
+}
+
 @media screen and (min-width: 576px) {
+  .container-fluid {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
   .row-end {
     display: flex;
     justify-content: right;
@@ -81,6 +111,11 @@ label {
   .gallery-container img {
     /* changed from column count to flex container */
     width: 32.9%;
+  }
+
+  .park-detail-img-container {
+    column-count: 3;
+    column-gap: 0.1rem;
   }
 
   #state {
@@ -115,6 +150,11 @@ label {
   .gallery-container img {
     /* changed from column count to flex container */
     width: 24.9%;
+  }
+
+  .park-detail-img-container {
+    column-count: 4;
+    column-gap: 0.1rem;
   }
 
   .filters {

@@ -32,8 +32,8 @@
     </nav>
   </header>
   <main>
-    <div class="container-fluid" data-view="gallery">
-      <div class="row filters gx-9">
+    <div class="container-fluid" >
+      <div class="row filters gx-9 hidden" data-view="gallery">
         <div class="col-sm-5 col-lg-6">
           <div class="row-end">
             <label for="state" class="proza-normal dark-text text-center align-center margin-right-halfrem">Where to Go</label>
@@ -51,13 +51,51 @@
           </div>
         </div>
       </div>
-      <div class="gallery-container ">
+      <div class="gallery-container hidden">
       </div>
       <div class="spinner-container row justify-content-center align-middle mt-5 hidden">
         <p class="loading">Loading Pictures</p>
         <div class="spinner">
         </div>
       </div>
+      <div data-view="park-details">
+        <div class="row justify-content-between mt-3">
+          <div class="col-1">
+            <i class="fa-solid fa-arrow-left-long fa-2xl"></i>
+          </div>
+          <div class="col-2">
+            <i class="fa-regular fa-heart fa-2xl  line-height"></i>
+            <i class="fa-solid fa-heart line-height hidden"></i>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <h5 class="proza-normal dark-text park-header"><u><strong>Mount Rainier National Park, WA</u></strong>
+              <i class="fa-regular fa-heart hidden"></i>
+              <i class="fa-solid fa-heart hidden"></i>
+            </h5>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <p class="proza-normal dark-text park-desc">Ascending to 14,410 feet above sea level, Mount Rainier stands as an icon in the Washington landscape. An active
+            volcano, Mount Rainier is the most glaciated peak in the contiguous U.S.A., spawning five major rivers. Subalpine
+            wildflower meadows ring the icy volcano while ancient forest cloaks Mount Rainier’s lower slopes. Wildlife abounds in
+            the park’s ecosystems. A lifetime of discovery awaits.
+            </p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <p class="proza-normal dark-text park-desc">Things to do
+            </p>
+          </div>
+        </div>
+        <div class="park-detail-img-container">
+          <img src="https://www.nps.gov/common/uploads/structured_data/49F34094-B893-7DD6-5AE0F0220724B0EF.jpg" alt="silver forest sunset">
+        </div>
+      </div>
+
     </div>
   </main>
   <script src="js/data.js"></script>

@@ -28,7 +28,8 @@ label {
   font-size: 1rem;
 }
 
-.gallery-container img {
+.gallery-container img,
+.park-detail-img-container img {
   border-radius: 1rem;
 }
 
@@ -61,6 +62,10 @@ label {
 .lilita {
   font-family: "Lilita One", sans-serif;
   letter-spacing: 0.1rem;
+}
+
+.park-desc {
+  font-size: 0.8rem;
 }
 
 @media screen and (min-width: 576px) {
