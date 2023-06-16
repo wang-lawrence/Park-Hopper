@@ -20,17 +20,47 @@ label {
   color: #100b00;
 }
 
+#state:hover {
+  cursor: pointer;
+  border: 1px solid #100b00;
+  box-shadow: 0 1rem 1em -1rem;
+}
+
 #state:active {
   font-size: 1rem;
+}
+
+#activity:hover {
+  cursor: pointer;
+  border: 1px solid #100b00;
+  box-shadow: 0 1rem 1em -1rem;
 }
 
 #activity:active {
   font-size: 1rem;
 }
 
+.go-back {
+  color: gray;
+}
+
+.go-back:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.fa-heart {
+  color: #85cb33;
+}
+
 .gallery-container img,
 .park-detail-img-container img {
   border-radius: 1rem;
+}
+
+.gallery-container img:hover {
+  cursor: pointer;
+  border: 1px solid gray;
 }
 
 .background-dark {

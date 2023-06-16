@@ -9,22 +9,33 @@ const $parkHeader = document.querySelector('.park-header');
 const $parkDesc = document.querySelector('.park-desc');
 const $parkActivities = document.querySelector('.park-activities');
 const $parkImgContainer = document.querySelector('.park-detail-img-container');
+const $goBack = document.querySelector('.go-back');
 let states = [];
 let activities = [];
 
 $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
 $galleryContainer.addEventListener('click', showParkDetail);
+$goBack.addEventListener('click', goBack);
 
 getData();
+
+function goBack(event) {
+  $galleryView.classList.remove('hidden');
+  $parkDetailsView.classList.add('hidden');
+}
 
 function showParkDetail(event) {
   const selParkName = event.target.getAttribute('data-park-name');
   const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
+  window.scrollTo(0, 0);
   $parkHeader.setAttribute('href', selParkObj.url);
   $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replace(',', '/')}`;
   $parkDesc.textContent = selParkObj.description;
   $parkActivities.textContent = `Things to do: ${selParkObj.activities.map(act => act.name).join(', ')}`;
+  while ($parkImgContainer.firstChild) {
+    $parkImgContainer.removeChild($parkImgContainer.firstChild);
+  }
   renderImg(selParkObj, $parkImgContainer);
   $galleryView.classList.add('hidden');
   $parkDetailsView.classList.remove('hidden');
@@ -75,7 +86,7 @@ function updateFilteredImg(event) {
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=20'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -83,6 +94,7 @@ function getData() {
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
+
     for (let i = 0; i < xhr.response.data.length; i++) {
       if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
         nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
@@ -94,6 +106,7 @@ function getData() {
         }
       }
     }
+
     states = [...uniqueStates].sort();
     activities = [...uniqueActivities].sort();
 
