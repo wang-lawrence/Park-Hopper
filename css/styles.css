@@ -20,20 +20,55 @@ label {
   color: #100b00;
 }
 
+#state:hover {
+  cursor: pointer;
+  border: 1px solid #100b00;
+  box-shadow: 0 1rem 1em -1rem;
+}
+
 #state:active {
   font-size: 1rem;
+}
+
+#activity:hover {
+  cursor: pointer;
+  border: 1px solid #100b00;
+  box-shadow: 0 1rem 1em -1rem;
 }
 
 #activity:active {
   font-size: 1rem;
 }
 
-.gallery-container img {
+.go-back {
+  color: gray;
+}
+
+.go-back:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.fa-heart {
+  color: #85cb33;
+}
+
+.gallery-container img,
+.park-detail-img-container img {
   border-radius: 1rem;
+}
+
+.gallery-container img:hover {
+  cursor: pointer;
+  border: 1px solid gray;
 }
 
 .background-dark {
   background-color: #100b00;
+}
+
+.dark-text {
+  color: #100b00;
 }
 
 .navbar-nav {
@@ -61,6 +96,19 @@ label {
 .lilita {
   font-family: "Lilita One", sans-serif;
   letter-spacing: 0.1rem;
+}
+
+.park-header:link,
+.park-header:visited {
+  color: #100b00;
+}
+
+.park-desc {
+  font-size: 0.8rem;
+}
+
+.park-activities {
+  font-size: 0.6rem;
 }
 
 @media screen and (min-width: 576px) {
@@ -108,4 +156,9 @@ label {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.desktop-heart {
+  margin-left: 1rem;
+  font-size: 1.5rem;
 }

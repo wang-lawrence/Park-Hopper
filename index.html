@@ -32,32 +32,67 @@
     </nav>
   </header>
   <main>
-    <div class="container-fluid" data-view="gallery">
-      <div class="row filters gx-9">
-        <div class="col-sm-5 col-lg-6">
-          <div class="row-end">
-            <label for="state" class="proza-normal dark-text text-center align-center margin-right-halfrem">Where to Go</label>
-            <select class="text-center lilita align-middle" id="state">
-              <option value="State">&lt;State&gt;</option>
-            </select>
+    <div class="container-fluid" >
+      <div data-view="gallery">
+        <div class="row filters gx-9" data-view="gallery">
+          <div class="col-sm-5 col-lg-6">
+            <div class="row-end">
+              <label for="state" class="proza-normal dark-text text-center align-center margin-right-halfrem">Where to Go</label>
+              <select class="text-center lilita align-middle" id="state">
+                <option value="State">&lt;State&gt;</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6">
+            <div class="row-center">
+              <label for="activity" class="proza-normal dark-text text-center margin-right-halfrem">What to Do</label>
+              <select class="text-center lilita align-middle" id="activity">
+                <option value="Activity">&lt;Activity&gt;</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="col-sm-7 col-lg-6">
-          <div class="row-center">
-            <label for="activity" class="proza-normal dark-text text-center margin-right-halfrem">What to Do</label>
-            <select class="text-center lilita align-middle" id="activity">
-              <option value="Activity">&lt;Activity&gt;</option>
-            </select>
+        <div class="gallery-container">
+        </div>
+        <div class="spinner-container row justify-content-center align-middle mt-5">
+          <p class="loading">Loading Pictures</p>
+          <div class="spinner">
           </div>
         </div>
       </div>
-      <div class="gallery-container ">
-      </div>
-      <div class="spinner-container row justify-content-center align-middle mt-5 hidden">
-        <p class="loading">Loading Pictures</p>
-        <div class="spinner">
+      <div class="hidden" data-view="park-details">
+        <div class="row justify-content-between mt-3">
+          <div class="col-1">
+            <i class="fa-solid fa-light fa-arrow-left-long fa-2xl go-back"></i>
+          </div>
+          <div class="col-2 mobile-heart">
+            <i class="fa-regular fa-heart fa-2xl  line-height"></i>
+            <i class="fa-solid fa-heart line-height saved hidden"></i>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <h5 class="proza-normal"><u><strong><a class="park-header" href="#" target="_blank" rel="noreferrer noopener"></a></u></strong>
+              <span class="desktop-heart"><i class="fa-regular fa-heart "></i><i class="fa-solid fa-heart saved hidden"></i></span>
+            </h5>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <p class="proza-normal dark-text park-desc">
+            </p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <p class="proza-normal dark-text park-activities">
+            </p>
+          </div>
+        </div>
+        <div class="park-detail-img-container">
         </div>
       </div>
+
     </div>
   </main>
   <script src="js/data.js"></script>
