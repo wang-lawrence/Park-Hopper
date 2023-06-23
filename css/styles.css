@@ -40,11 +40,13 @@ label {
   font-size: 1rem;
 }
 
-.go-back {
+.go-back,
+.go-back-saved-parks {
   color: gray;
 }
 
-.go-back:hover {
+.go-back:hover,
+.go-back-saved-parks:hover {
   cursor: pointer;
   color: black;
 }
@@ -53,9 +55,19 @@ label {
   color: #85cb33;
 }
 
+.fa-rectangle-list {
+  cursor: pointer;
+}
+
 .gallery-container img,
 .park-detail-img-container img {
   border-radius: 1rem;
+}
+
+.saved-card {
+  border-radius: 3.1rem;
+  border: 1px solid gray;
+  margin-top: 2rem;
 }
 
 .gallery-container img:hover {

@@ -10,6 +10,9 @@ const $parkDesc = document.querySelector('.park-desc');
 const $parkActivities = document.querySelector('.park-activities');
 const $parkImgContainer = document.querySelector('.park-detail-img-container');
 const $goBack = document.querySelector('.go-back');
+const $saveParksView = document.querySelector('[data-view="saved-parks"]');
+const $goBackSavedParks = document.querySelector('.go-back-saved-parks');
+const $saveListIcon = document.querySelector('.fa-rectangle-list');
 let states = [];
 let activities = [];
 
@@ -17,12 +20,24 @@ $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
 $galleryContainer.addEventListener('click', showParkDetail);
 $goBack.addEventListener('click', goBack);
+$goBackSavedParks.addEventListener('click', goBackSavedParks);
+$saveListIcon.addEventListener('click', showSavedParks);
 
 getData();
 
 function goBack(event) {
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
+}
+
+function goBackSavedParks(event) {
+  $galleryView.classList.remove('hidden');
+  $saveParksView.classList.add('hidden');
+}
+
+function showSavedParks(event) {
+  $galleryView.classList.add('hidden');
+  $saveParksView.classList.remove('hidden');
 }
 
 function showParkDetail(event) {
@@ -77,11 +92,9 @@ function updateFilteredImg(event) {
     }
   });
 
-  showSpinner();
   for (let i = 0; i < parksFilteredActivity.length; i++) {
     renderImg(parksFilteredActivity[i], $galleryContainer);
   }
-  hideSpinner();
 }
 
 function getData() {

@@ -89,6 +89,12 @@ label {
   object-fit: cover;
 }
 
+.saved-card img {
+  width: 100%;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+}
+
 .park-desc {
   max-width: 550px;
 }
