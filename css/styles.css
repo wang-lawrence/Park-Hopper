@@ -55,6 +55,11 @@ label {
   color: #85cb33;
 }
 
+.fa-heart:hover {
+  cursor: pointer;
+  font-size: 1.7rem;
+}
+
 .fa-rectangle-list {
   cursor: pointer;
 }
@@ -121,6 +126,10 @@ label {
 
 .park-activities {
   font-size: 0.6rem;
+}
+
+.font-bold {
+  font-weight: bold;
 }
 
 @media screen and (min-width: 576px) {

@@ -1,5 +1,6 @@
 /* exported data */
-// const data = {
-//   currentPark: 'Arches',
-//   savedParks: [{name: 'Acadia', imageUrl: , 'Arches']
-// };
+const data = {
+  currentPark: {},
+  savedParks: [],
+  savedParksImg: []
+};

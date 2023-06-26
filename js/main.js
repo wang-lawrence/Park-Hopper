@@ -13,6 +13,10 @@ const $goBack = document.querySelector('.go-back');
 const $saveParksView = document.querySelector('[data-view="saved-parks"]');
 const $goBackSavedParks = document.querySelector('.go-back-saved-parks');
 const $saveListIcon = document.querySelector('.fa-rectangle-list');
+const $desktopHeart = document.querySelector('.desktop-heart > i');
+const $mobileHeart = document.querySelector('.mobile-heart > i');
+const $savedParksImgContainer = document.querySelector('.saved-parks-img-container');
+
 let states = [];
 let activities = [];
 
@@ -22,8 +26,40 @@ $galleryContainer.addEventListener('click', showParkDetail);
 $goBack.addEventListener('click', goBack);
 $goBackSavedParks.addEventListener('click', goBackSavedParks);
 $saveListIcon.addEventListener('click', showSavedParks);
+$desktopHeart.addEventListener('click', updateFavoriteList);
+$mobileHeart.addEventListener('click', updateFavoriteList);
 
 getData();
+
+function updateFavoriteList(event) {
+
+  $desktopHeart.classList.toggle('font-bold');
+  $mobileHeart.classList.toggle('font-bold');
+  if (data.savedParks.indexOf(data.currentPark.name) === -1) {
+    data.savedParks.push(data.currentPark.name);
+    data.savedParksImg.push(data.currentPark.images[0].url);
+    const $col = document.createElement('div');
+    const $card = document.createElement('div');
+    const $img = document.createElement('img');
+    const $p = document.createElement('p');
+
+    $col.className = 'col-sm-6 col-lg-4';
+    $card.className = 'saved-card';
+    $img.setAttribute('src', data.currentPark.images[0].url);
+    $img.setAttribute('alt', `${data.currentPark.fullName} image`);
+    $p.className = 'text-center mt-2 proza-normal';
+    $p.textContent = data.currentPark.fullName;
+
+    $card.append($img, $p);
+    $col.append($card);
+    $savedParksImgContainer.append($col);
+
+  } else {
+    data.savedParks.splice(data.savedParks.indexOf(data.currentPark.name), 1);
+    data.savedParksImg.splice(data.savedParks.indexOf(data.currentPark.name), 1);
+  }
+
+}
 
 function goBack(event) {
   $galleryView.classList.remove('hidden');
@@ -43,6 +79,14 @@ function showSavedParks(event) {
 function showParkDetail(event) {
   const selParkName = event.target.getAttribute('data-park-name');
   const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
+  data.currentPark = selParkObj;
+  if (data.savedParks.indexOf(data.currentPark.name) === -1) {
+    $desktopHeart.classList.remove('font-bold');
+    $mobileHeart.classList.remove('font-bold');
+  } else {
+    $desktopHeart.classList.add('font-bold');
+    $mobileHeart.classList.add('font-bold');
+  }
   window.scrollTo(0, 0);
   $parkHeader.setAttribute('href', selParkObj.url);
   $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replace(',', '/')}`;
@@ -99,7 +143,7 @@ function updateFilteredImg(event) {
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=100'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();

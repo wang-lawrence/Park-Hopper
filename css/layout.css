@@ -153,6 +153,10 @@ label {
   }
 }
 
+.park-header {
+  line-height: 3rem;
+}
+
 @media screen and (min-width: 768px) {
   #state {
     width: 8rem;
