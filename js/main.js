@@ -95,7 +95,7 @@ function showParkDetail(event) {
   }
   window.scrollTo(0, 0);
   $parkHeader.setAttribute('href', selParkObj.url);
-  $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replace(',', '/')}`;
+  $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replaceAll(',', '/')}`;
   $parkDesc.textContent = selParkObj.description;
   $parkActivities.textContent = `Things to do: ${selParkObj.activities.map(act => act.name).join(', ')}`;
   while ($parkImgContainer.firstChild) {
@@ -150,7 +150,7 @@ function updateFilteredImg(event) {
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=400'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
