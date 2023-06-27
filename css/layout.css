@@ -7,7 +7,7 @@
 }
 
 .container-fluid {
-  max-width: 1500px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -87,12 +87,6 @@ label {
   width: 100%;
   margin-bottom: 0.2rem;
   object-fit: cover;
-}
-
-.saved-card img {
-  width: 100%;
-  border-top-left-radius: 3rem;
-  border-top-right-radius: 3rem;
 }
 
 .park-desc {
