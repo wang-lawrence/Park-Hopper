@@ -150,7 +150,8 @@ function updateFilteredImg(event) {
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
+  // only want to keep National Parks, provide filter in the endpoint to only return specified parks. If we remove the filter we could get other things like historic sites or monuments
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,drto,ever,jeff,glac,grca,grte,grba,grsm,gumo,hale,havo,hosp,indu,isro,jotr,kefj,kova,lavo,maca,meve,mora,noca,olym,pefo,pinn,romo,sagu,shen,thro,viis,voya,whsa,wica,yell,yose'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -158,16 +159,14 @@ function getData() {
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-
     for (let i = 0; i < xhr.response.data.length; i++) {
-      if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
-        nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
-        uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-        renderImg(xhr.response.data[i], $galleryContainer);
+      // if (xhr.response.data[i].designation === 'National Park') {
+      nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
+      uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
+      renderImg(xhr.response.data[i], $galleryContainer);
 
-        for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
-          uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-        }
+      for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
+        uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       }
     }
 
