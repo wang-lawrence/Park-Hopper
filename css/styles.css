@@ -40,11 +40,13 @@ label {
   font-size: 1rem;
 }
 
-.go-back {
+.go-back,
+.go-back-saved-parks {
   color: gray;
 }
 
-.go-back:hover {
+.go-back:hover,
+.go-back-saved-parks:hover {
   cursor: pointer;
   color: black;
 }
@@ -53,9 +55,40 @@ label {
   color: #85cb33;
 }
 
+.fa-heart:hover {
+  cursor: pointer;
+  font-size: 1.7rem;
+}
+
+.fa-rectangle-list {
+  cursor: pointer;
+}
+
 .gallery-container img,
 .park-detail-img-container img {
   border-radius: 1rem;
+}
+
+.saved-card {
+  border-radius: 1.1rem;
+  border: 1px solid gray;
+  margin: 0.5rem auto;
+  max-width: 20rem;
+}
+
+.saved-card img {
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  object-position: 0 20%;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.saved-card:hover {
+  cursor: pointer;
+  border: 1px solid black;
+  box-shadow: 1px 6px 4px -4px black;
 }
 
 .gallery-container img:hover {
@@ -109,6 +142,10 @@ label {
 
 .park-activities {
   font-size: 0.6rem;
+}
+
+.font-bold {
+  font-weight: bold;
 }
 
 @media screen and (min-width: 576px) {

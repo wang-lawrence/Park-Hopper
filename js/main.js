@@ -10,6 +10,13 @@ const $parkDesc = document.querySelector('.park-desc');
 const $parkActivities = document.querySelector('.park-activities');
 const $parkImgContainer = document.querySelector('.park-detail-img-container');
 const $goBack = document.querySelector('.go-back');
+const $savedParksView = document.querySelector('[data-view="saved-parks"]');
+const $goBackSavedParks = document.querySelector('.go-back-saved-parks');
+const $saveListIcon = document.querySelector('.fa-rectangle-list');
+const $desktopHeart = document.querySelector('.desktop-heart > i');
+const $mobileHeart = document.querySelector('.mobile-heart > i');
+const $savedParksImgContainer = document.querySelector('.saved-parks-img-container');
+
 let states = [];
 let activities = [];
 
@@ -17,20 +24,78 @@ $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
 $galleryContainer.addEventListener('click', showParkDetail);
 $goBack.addEventListener('click', goBack);
+$goBackSavedParks.addEventListener('click', goBackSavedParks);
+$saveListIcon.addEventListener('click', showSavedParks);
+$desktopHeart.addEventListener('click', updateFavoriteList);
+$mobileHeart.addEventListener('click', updateFavoriteList);
+$savedParksImgContainer.addEventListener('click', showParkDetail);
 
 getData();
+
+function updateFavoriteList(event) {
+
+  $desktopHeart.classList.toggle('font-bold');
+  $mobileHeart.classList.toggle('font-bold');
+  if (data.savedParks.indexOf(data.currentPark.name) === -1) {
+    data.savedParks.push(data.currentPark.name);
+    data.savedParksImg.push(data.currentPark.images[0].url);
+    const $col = document.createElement('div');
+    const $card = document.createElement('div');
+    const $img = document.createElement('img');
+    const $p = document.createElement('p');
+
+    $col.className = 'col-sm-6 col-lg-4 col-xl-3';
+    $card.className = 'saved-card';
+    $img.setAttribute('src', data.currentPark.images[0].url);
+    $img.setAttribute('alt', `${data.currentPark.fullName} image`);
+    $img.setAttribute('data-park-name', data.currentPark.name);
+    $p.className = 'text-center mt-2 mb-2 proza-normal';
+    $p.setAttribute('data-park-name', data.currentPark.name);
+    $p.textContent = data.currentPark.fullName;
+
+    $card.append($img, $p);
+    $col.append($card);
+    $savedParksImgContainer.append($col);
+
+  } else {
+    data.savedParks.splice(data.savedParks.indexOf(data.currentPark.name), 1);
+    data.savedParksImg.splice(data.savedParks.indexOf(data.currentPark.name), 1);
+  }
+
+}
 
 function goBack(event) {
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
+}
+
+function goBackSavedParks(event) {
+  $galleryView.classList.remove('hidden');
+  $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
+}
+
+function showSavedParks(event) {
+  $galleryView.classList.add('hidden');
+  $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.remove('hidden');
 }
 
 function showParkDetail(event) {
   const selParkName = event.target.getAttribute('data-park-name');
   const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
+  data.currentPark = selParkObj;
+  if (data.savedParks.indexOf(data.currentPark.name) === -1) {
+    $desktopHeart.classList.remove('font-bold');
+    $mobileHeart.classList.remove('font-bold');
+  } else {
+    $desktopHeart.classList.add('font-bold');
+    $mobileHeart.classList.add('font-bold');
+  }
   window.scrollTo(0, 0);
   $parkHeader.setAttribute('href', selParkObj.url);
-  $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replace(',', '/')}`;
+  $parkHeader.textContent = `${selParkObj.fullName}, ${selParkObj.states.replaceAll(',', '/')}`;
   $parkDesc.textContent = selParkObj.description;
   $parkActivities.textContent = `Things to do: ${selParkObj.activities.map(act => act.name).join(', ')}`;
   while ($parkImgContainer.firstChild) {
@@ -38,6 +103,7 @@ function showParkDetail(event) {
   }
   renderImg(selParkObj, $parkImgContainer);
   $galleryView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
   $parkDetailsView.classList.remove('hidden');
 }
 
@@ -77,16 +143,15 @@ function updateFilteredImg(event) {
     }
   });
 
-  showSpinner();
   for (let i = 0; i < parksFilteredActivity.length; i++) {
     renderImg(parksFilteredActivity[i], $galleryContainer);
   }
-  hideSpinner();
 }
 
 function getData() {
   showSpinner();
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469'); // API endpoint for parks
+  // only want to keep National Parks, provide filter in the endpoint to only return specified parks. If we remove the filter we could get other things like historic sites or monuments
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,drto,ever,jeff,glac,grca,grte,grba,grsm,gumo,hale,havo,hosp,indu,isro,jotr,kefj,kova,lavo,maca,meve,mora,noca,olym,pefo,pinn,romo,sagu,shen,thro,viis,voya,whsa,wica,yell,yose'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -94,16 +159,14 @@ function getData() {
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-
     for (let i = 0; i < xhr.response.data.length; i++) {
-      if (xhr.response.data[i].designation === 'National Park') { // only want to keep National Parks, the API returns other things like historical sites
-        nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
-        uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-        renderImg(xhr.response.data[i], $galleryContainer);
+      // if (xhr.response.data[i].designation === 'National Park') {
+      nationalParks.push(xhr.response.data[i]); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
+      uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
+      renderImg(xhr.response.data[i], $galleryContainer);
 
-        for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
-          uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-        }
+      for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
+        uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       }
     }
 

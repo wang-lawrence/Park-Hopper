@@ -7,7 +7,7 @@
 }
 
 .container-fluid {
-  max-width: 1500px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -145,6 +145,10 @@ label {
   .desktop-heart {
     display: inline;
   }
+}
+
+.park-header {
+  line-height: 3rem;
 }
 
 @media screen and (min-width: 768px) {
