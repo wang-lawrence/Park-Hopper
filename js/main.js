@@ -16,6 +16,7 @@ const $saveListIcon = document.querySelector('.fa-rectangle-list');
 const $desktopHeart = document.querySelector('.desktop-heart > i');
 const $mobileHeart = document.querySelector('.mobile-heart > i');
 const $savedParksImgContainer = document.querySelector('.saved-parks-img-container');
+const $noParkMsg = document.querySelector('.no-park-msg');
 
 let states = [];
 let activities = [];
@@ -32,6 +33,16 @@ $savedParksImgContainer.addEventListener('click', showParkDetail);
 
 getData();
 
+function removeSavedPark(event) {
+  event.stopPropagation();
+  const $card = event.target.closest('.saved-card');
+  const parkName = $card.getAttribute('data-park-name');
+  $card.closest('.card-col').remove();
+  data.savedParks.splice(data.savedParks.indexOf(parkName), 1);
+  data.savedParksImg.splice(data.savedParks.indexOf(parkName), 1);
+  toggleNoParksMessage();
+}
+
 function updateFavoriteList(event) {
 
   $desktopHeart.classList.toggle('font-bold');
@@ -40,30 +51,32 @@ function updateFavoriteList(event) {
     data.savedParks.push(data.currentPark.name);
     data.savedParksImg.push(data.currentPark.images[0].url);
     const $col = document.createElement('div');
+    const $heart = document.createElement('i');
     const $card = document.createElement('div');
     const $img = document.createElement('img');
     const $p = document.createElement('p');
 
     $col.className = 'col-sm-6 col-lg-4 col-xl-3 card-col';
     $card.className = 'saved-card';
+    $card.setAttribute('data-park-name', data.currentPark.name);
+    $heart.className = 'fa-solid fa-heart fa-2xl line-height saved-heart';
+    $heart.addEventListener('click', removeSavedPark);
     $img.setAttribute('src', data.currentPark.images[0].url);
     $img.setAttribute('alt', `${data.currentPark.fullName} image`);
-    $img.setAttribute('data-saved-park-name', data.currentPark.name);
     $p.className = 'text-center mt-2 mb-2 proza-normal';
-    $p.setAttribute('data-saved-park-name', data.currentPark.name);
     $p.textContent = data.currentPark.fullName;
 
-    $card.append($img, $p);
+    $card.append($heart, $img, $p);
     $col.append($card);
     $savedParksImgContainer.append($col);
 
   } else {
     data.savedParks.splice(data.savedParks.indexOf(data.currentPark.name), 1);
     data.savedParksImg.splice(data.savedParks.indexOf(data.currentPark.name), 1);
-    const $img = document.querySelector(`[data-saved-park-name=${data.currentPark.name}]`);
-    $img.closest('.card-col').remove();
+    const $card = document.querySelector(`.card-col [data-park-name=${data.currentPark.name}]`);
+    $card.closest('.card-col').remove();
   }
-
+  toggleNoParksMessage();
 }
 
 function goBack(event) {
@@ -86,7 +99,7 @@ function showSavedParks(event) {
 }
 
 function showParkDetail(event) {
-  const selParkName = event.target.getAttribute('data-park-name');
+  const selParkName = event.target.closest('[data-park-name]').getAttribute('data-park-name');
   const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
   data.currentPark = selParkObj;
   if (data.savedParks.indexOf(data.currentPark.name) === -1) {
@@ -205,5 +218,13 @@ function renderImg(parkObj, parent) {
     $img.setAttribute('alt', `${parkObj.fullName} image`);
     $img.setAttribute('data-park-name', parkObj.name);
     parent.appendChild($img);
+  }
+}
+
+function toggleNoParksMessage() {
+  if (data.savedParks.length === 0) {
+    $noParkMsg.classList.remove('hidden');
+  } else {
+    $noParkMsg.classList.add('hidden');
   }
 }
