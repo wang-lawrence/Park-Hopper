@@ -177,7 +177,7 @@ function getData() {
   xhr.addEventListener('load', function () {
     for (let i = 0; i < xhr.response.data.length; i++) {
       // if (xhr.response.data[i].designation === 'National Park') {
-      const trimmedParkName = xhr.response.data[i].name.replaceAll(' ', '');
+      const trimmedParkName = xhr.response.data[i].name.replaceAll(' ', ''); // need to remove spaces in order to query DOM elements using data-park-name attributes
       const nationalPark = { ...xhr.response.data[i], name: trimmedParkName };
       nationalParks.push(nationalPark); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
       uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
