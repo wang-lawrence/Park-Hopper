@@ -74,6 +74,7 @@ label {
   border: 1px solid gray;
   margin: 0.5rem auto;
   max-width: 20rem;
+  position: relative;
 }
 
 .saved-card img {
@@ -88,7 +89,16 @@ label {
 .saved-card:hover {
   cursor: pointer;
   border: 1px solid black;
-  box-shadow: 1px 6px 4px -4px black;
+  box-shadow: 1px 6px 4px -4px gray;
+}
+
+.saved-heart {
+  position: absolute;
+  color: #efffc8;
+  opacity: 1;
+  z-index: 1;
+  top: 1rem;
+  right: 1rem;
 }
 
 .gallery-container img:hover {
