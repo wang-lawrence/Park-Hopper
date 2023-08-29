@@ -17,6 +17,8 @@ const $desktopHeart = document.querySelector('.desktop-heart > i');
 const $mobileHeart = document.querySelector('.mobile-heart > i');
 const $savedParksImgContainer = document.querySelector('.saved-parks-img-container');
 const $noParkMsg = document.querySelector('.no-park-msg');
+const $noMatch = document.querySelector('.no-match');
+const $connectionError = document.querySelector('.connection-error');
 
 let states = [];
 let activities = [];
@@ -40,7 +42,7 @@ function removeSavedPark(event) {
   $card.closest('.card-col').remove();
   data.savedParks.splice(data.savedParks.indexOf(parkName), 1);
   data.savedParksImg.splice(data.savedParks.indexOf(parkName), 1);
-  toggleNoParksMessage();
+  toggleNoSavedParksMessage();
 }
 
 function updateFavoriteList(event) {
@@ -76,7 +78,7 @@ function updateFavoriteList(event) {
     const $card = document.querySelector(`.card-col [data-park-name=${data.currentPark.name}]`);
     $card.closest('.card-col').remove();
   }
-  toggleNoParksMessage();
+  toggleNoSavedParksMessage();
 }
 
 function goBack(event) {
@@ -117,7 +119,7 @@ function showParkDetail(event) {
   while ($parkImgContainer.firstChild) {
     $parkImgContainer.removeChild($parkImgContainer.firstChild);
   }
-  renderImg(selParkObj, $parkImgContainer);
+  renderAllImg(selParkObj, $parkImgContainer);
   $galleryView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
   $parkDetailsView.classList.remove('hidden');
@@ -160,8 +162,10 @@ function updateFilteredImg(event) {
   });
 
   for (let i = 0; i < parksFilteredActivity.length; i++) {
-    renderImg(parksFilteredActivity[i], $galleryContainer);
+    renderFirstImg(parksFilteredActivity[i], $galleryContainer);
   }
+
+  toggleNoMatchMessage(parksFilteredActivity);
 }
 
 function getData() {
@@ -176,12 +180,11 @@ function getData() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (let i = 0; i < xhr.response.data.length; i++) {
-      // if (xhr.response.data[i].designation === 'National Park') {
       const trimmedParkName = xhr.response.data[i].name.replaceAll(' ', ''); // need to remove spaces in order to query DOM elements using data-park-name attributes
       const nationalPark = { ...xhr.response.data[i], name: trimmedParkName };
       nationalParks.push(nationalPark); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
       uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-      renderImg(nationalPark, $galleryContainer);
+      renderFirstImg(nationalPark, $galleryContainer);
 
       for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
         uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
@@ -208,12 +211,13 @@ function getData() {
     const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
 
-    hideSpinner();
+    setTimeout(hideSpinner, 2000);
+    toggleErrorMessage(xhr.response.data);
   });
   xhr.send();
 }
 
-function renderImg(parkObj, parent) {
+function renderAllImg(parkObj, parent) {
   for (let j = 0; j < parkObj.images.length; j++) { // for each park data object we append all the images to the gallery and assign a data-name to be able to query the park details later
     const $img = document.createElement('img');
     $img.setAttribute('src', parkObj.images[j].url);
@@ -223,10 +227,34 @@ function renderImg(parkObj, parent) {
   }
 }
 
-function toggleNoParksMessage() {
+function renderFirstImg(parkObj, parent) {
+  const $img = document.createElement('img');
+  $img.setAttribute('src', parkObj.images[0].url);
+  $img.setAttribute('alt', `${parkObj.fullName} image`);
+  $img.setAttribute('data-park-name', parkObj.name);
+  parent.appendChild($img);
+}
+
+function toggleNoSavedParksMessage() {
   if (data.savedParks.length === 0) {
     $noParkMsg.classList.remove('hidden');
   } else {
     $noParkMsg.classList.add('hidden');
+  }
+}
+
+function toggleNoMatchMessage(selectedParks) {
+  if (selectedParks.length === 0) {
+    $noMatch.classList.remove('hidden');
+  } else {
+    $noMatch.classList.add('hidden');
+  }
+}
+
+function toggleErrorMessage(parkResponse) {
+  if (!parkResponse || parkResponse.length === 0) {
+    $connectionError.classList.remove('hidden');
+  } else {
+    $connectionError.classList.add('hidden');
   }
 }

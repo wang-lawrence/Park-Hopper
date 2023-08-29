@@ -61,20 +61,16 @@ label {
 }
 
 .gallery-container {
-  /* changed from column count to flex container so images load without flicker,
-  if switching back in the future need to set column count and column gap */
+  /* change gallery container to flexbox if image loading causes images to shift around */
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-
-  /* justify-content: space-evenly; */
+  columns: 2;
+  column-gap: 0.2rem;
 }
 
 .gallery-container img {
-  width: 49%;
+  width: 100%;
   height: auto;
   margin-bottom: 0.2rem;
-  margin-right: 0.1rem;
   object-fit: cover;
 }
 
@@ -103,7 +99,6 @@ label {
 
 @media screen and (min-width: 576px) {
   .container-fluid {
-    /* max-width: 1000px; */
     margin: 0 auto;
     padding: 0 2rem;
   }
@@ -118,9 +113,8 @@ label {
     justify-content: left;
   }
 
-  .gallery-container img {
-    /* changed from column count to flex container */
-    width: 32.9%;
+  .gallery-container {
+    columns: 3;
   }
 
   .park-detail-img-container {
@@ -169,9 +163,8 @@ label {
     height: 3rem;
   }
 
-  .gallery-container img {
-    /* changed from column count to flex container */
-    width: 24.8%;
+  .gallery-container {
+    columns: 4;
   }
 
   .park-detail-img-container {
