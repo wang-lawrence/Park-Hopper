@@ -146,6 +146,10 @@ label {
   color: #100b00;
 }
 
+.park-header:hover {
+  color: gray;
+}
+
 .park-desc {
   font-size: 0.8rem;
 }
