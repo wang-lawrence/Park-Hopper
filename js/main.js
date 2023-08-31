@@ -211,7 +211,7 @@ function getData() {
     const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
 
-    setTimeout(hideSpinner, 2000);
+    setTimeout(hideSpinner, 5000);
     toggleErrorMessage(xhr.response.data);
   });
   xhr.send();

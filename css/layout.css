@@ -63,14 +63,17 @@ label {
 .gallery-container {
   /* change gallery container to flexbox if image loading causes images to shift around */
   width: 100%;
-  columns: 2;
-  column-gap: 0.2rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .gallery-container img {
-  width: 100%;
+  width: 49%;
   height: auto;
+  max-height: 10rem;
+  overflow-y: hidden;
   margin-bottom: 0.2rem;
+  margin-right: 0.1rem;
   object-fit: cover;
 }
 
@@ -113,8 +116,8 @@ label {
     justify-content: left;
   }
 
-  .gallery-container {
-    columns: 3;
+  .gallery-container img {
+    width: 32.9%;
   }
 
   .park-detail-img-container {
@@ -163,8 +166,8 @@ label {
     height: 3rem;
   }
 
-  .gallery-container {
-    columns: 4;
+  .gallery-container img {
+    width: 24.8%;
   }
 
   .park-detail-img-container {
