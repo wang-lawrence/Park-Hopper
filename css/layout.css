@@ -3,7 +3,7 @@
 }
 
 .navbar {
-  padding: 0.5rem 0;
+  padding: 0.2rem 0;
 }
 
 .container-fluid {
@@ -58,6 +58,65 @@ label {
 
 .margin-right-halfrem {
   margin-right: 0.5rem;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.quote {
+  margin-top: 3rem;
+  padding: 0 1rem;
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.explore {
+  margin-top: 3rem;
+  padding: 0 1rem;
+  flex-basis: 20%;
+  text-align: center;
+}
+
+.explore-button {
+  width: 10rem;
+  padding: 1rem;
+  align-self: center;
+}
+
+.park {
+  margin-left: 2rem;
+  flex-basis: 80%;
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-end;
+  font-size: small;
+}
+
+.hero-image-wrapper {
+  position: relative;
+  height: calc(100vh - 49.38px);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: black;
+  opacity: 50%;
+}
+
+.hero-image-wrapper img {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  object-fit: cover;
+  object-position: center;
 }
 
 .gallery-container {
