@@ -24,6 +24,7 @@ const $connectionError = document.querySelector('.connection-error');
 const $homeView = document.querySelector('[data-view="home"]');
 const $parkHopperLogo = document.querySelector('.navbar-brand');
 const $exploreButton = document.querySelector('.explore-button');
+const $explorerButtonLoader = document.querySelector('.loading-button');
 const $heroImageWrapper = document.querySelector('.hero-image-wrapper');
 const $quoteContainer = document.querySelector('.quote-container');
 const $homeParkName = document.querySelector('.park em');
@@ -164,6 +165,15 @@ function hideSpinner() {
   $galleryContainer.classList.remove('hidden');
 }
 
+function showExplorerButtonLoader() {
+  $explorerButtonLoader.classList.remove('hidden');
+  $exploreButton.classList.add('hidden');
+}
+function hideExplorerButtonLoader() {
+  $explorerButtonLoader.classList.add('hidden');
+  $exploreButton.classList.remove('hidden');
+}
+
 function updateFilteredImg(event) {
   const selState = $stateDD.value;
   const selActivity = $activtyDD.value;
@@ -199,6 +209,7 @@ function updateFilteredImg(event) {
 }
 
 function getData() {
+  showExplorerButtonLoader();
   showSpinner();
   // only want to keep National Parks, provide filter in the endpoint to only return specified parks. If we remove the filter we could get other things like historic sites or monuments
   const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,dena,drto,ever,gaar,jeff,glba,glac,grca,grte,grba,grsa,grsm,gumo,hale,havo,hosp,indu,isro,jotr,katm,kefj,kova,lacl,lavo,maca,meve,mora,neri,noca,npsa,olym,pefo,pinn,redw,romo,sagu,seki,shen,thro,viis,voya,whsa,wica,wrst,yell,yose,zion'); // API endpoint for parks
@@ -209,6 +220,7 @@ function getData() {
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
+    hideExplorerButtonLoader();
     for (let i = 0; i < xhr.response.data.length; i++) {
       const trimmedParkName = xhr.response.data[i].name.replaceAll(' ', ''); // need to remove spaces in order to query DOM elements using data-park-name attributes
       const nationalPark = { ...xhr.response.data[i], name: trimmedParkName };
@@ -240,7 +252,7 @@ function getData() {
     const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
 
-    setTimeout(hideSpinner, 5000);
+    setTimeout(hideSpinner, 1000);
     toggleErrorMessage(xhr.response.data);
   });
   xhr.send();

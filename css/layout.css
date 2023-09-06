@@ -90,11 +90,23 @@ label {
   text-align: center;
 }
 
+.loading-button,
 .explore-button {
   flex-basis: 10%;
-  width: 10rem;
   padding: 1rem;
   align-self: center;
+}
+
+.explore-button {
+  width: 10rem;
+}
+
+.loader {
+  vertical-align: top;
+}
+
+.loading-button, {
+  width: 20rem;
 }
 
 .progress-dots-container {
