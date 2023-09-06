@@ -1,3 +1,5 @@
+/* global carousel */
+
 const nationalParks = [];
 const $galleryContainer = document.querySelector('.gallery-container'); // query for the gallery container to add images to later
 const $stateDD = document.querySelector('#state');
@@ -19,6 +21,15 @@ const $savedParksImgContainer = document.querySelector('.saved-parks-img-contain
 const $noParkMsg = document.querySelector('.no-park-msg');
 const $noMatch = document.querySelector('.no-match');
 const $connectionError = document.querySelector('.connection-error');
+const $homeView = document.querySelector('[data-view="home"]');
+const $parkHopperLogo = document.querySelector('.navbar-brand');
+const $exploreButton = document.querySelector('.explore-button');
+const $heroImageWrapper = document.querySelector('.hero-image-wrapper');
+const $quoteContainer = document.querySelector('.quote-container');
+const $homeParkName = document.querySelector('.park em');
+const $progressDotsContainer = document.querySelector('.progress-dots-container');
+makeProgressDots();
+const $progressDot = document.querySelectorAll('.fa-circle');
 
 let states = [];
 let activities = [];
@@ -32,7 +43,11 @@ $saveListIcon.addEventListener('click', showSavedParks);
 $desktopHeart.addEventListener('click', updateFavoriteList);
 $mobileHeart.addEventListener('click', updateFavoriteList);
 $savedParksImgContainer.addEventListener('click', showParkDetail);
+$parkHopperLogo.addEventListener('click', showHomePage);
+$exploreButton.addEventListener('click', showGallery);
+$progressDotsContainer.addEventListener('click', goToSlide);
 
+renderAllScreens();
 getData();
 
 function removeSavedPark(event) {
@@ -82,6 +97,7 @@ function updateFavoriteList(event) {
 }
 
 function goBack(event) {
+  $homeView.classList.add('hidden');
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
@@ -89,15 +105,31 @@ function goBack(event) {
 }
 
 function goBackSavedParks(event) {
+  $homeView.classList.add('hidden');
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
 }
 
 function showSavedParks(event) {
+  $homeView.classList.add('hidden');
   $galleryView.classList.add('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.remove('hidden');
+}
+
+function showHomePage() {
+  $homeView.classList.remove('hidden');
+  $galleryView.classList.add('hidden');
+  $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
+}
+
+function showGallery() {
+  $homeView.classList.add('hidden');
+  $galleryView.classList.remove('hidden');
+  $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
 }
 
 function showParkDetail(event) {
@@ -120,6 +152,7 @@ function showParkDetail(event) {
     $parkImgContainer.removeChild($parkImgContainer.firstChild);
   }
   renderAllImg(selParkObj, $parkImgContainer);
+  $homeView.classList.add('hidden');
   $galleryView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
   $parkDetailsView.classList.remove('hidden');
@@ -257,4 +290,84 @@ function toggleErrorMessage(parkResponse) {
   } else {
     $connectionError.classList.add('hidden');
   }
+}
+
+// carousel related functions
+
+let imageView = 0;
+const intervalTimer = 8000;
+
+// make the progress dots dynamic depending on number of images
+function makeProgressDots() {
+  for (let i = 0; i < carousel.length; i++) {
+    const $i = document.createElement('i');
+
+    if (i === 0) {
+      $i.className = 'fa-solid fa-circle';
+    } else {
+      $i.className = 'fa-regular fa-circle';
+    }
+
+    $i.setAttribute('data-view', `${i}`);
+    $progressDotsContainer.appendChild($i);
+  }
+}
+
+function renderAllScreens() {
+  for (let i = 0; i < carousel.length; i++) {
+    const $heroImg = document.createElement('img');
+    const $homeQuote = document.createElement('h4');
+    if (i === 0) {
+      $heroImg.className = 'item active';
+      $homeQuote.className = 'quote active';
+    } else {
+      $heroImg.className = 'item';
+      $homeQuote.className = 'quote';
+    }
+    const { quote, url } = carousel[i];
+    $heroImg.setAttribute('data-slider-item', `${i}`);
+    $heroImg.src = url;
+    $heroImageWrapper.appendChild($heroImg);
+    $homeQuote.setAttribute('data-slider-quote', `${i}`);
+    $homeQuote.textContent = quote;
+    $quoteContainer.appendChild($homeQuote);
+  }
+}
+
+function renderScreen(i) {
+  const $currentImg = document.querySelector('.active.item');
+  $currentImg.classList.remove('active');
+  const $nextImg = document.querySelector(`[data-slider-item = "${i}"]`);
+  $nextImg.classList.add('active');
+
+  const $currentQuote = document.querySelector('.quote.active');
+  $currentQuote.classList.remove('active');
+  const $nextQuote = document.querySelector(`[data-slider-quote = "${i}"]`);
+  $nextQuote.classList.add('active');
+  $homeParkName.textContent = carousel[i].park;
+}
+
+function showNextHomeScreen() {
+  $progressDot[imageView].classList.replace('fa-solid', 'fa-regular');
+  imageView++;
+  if (imageView >= carousel.length) {
+    imageView = 0;
+  }
+  renderScreen(imageView);
+  $progressDot[imageView].classList.replace('fa-regular', 'fa-solid');
+}
+
+function imgScrolling() {
+  setTimeout(showNextHomeScreen, 300);
+}
+
+let intervalId = setInterval(imgScrolling, intervalTimer);
+
+function goToSlide(event) {
+  $progressDot[imageView].classList.replace('fa-solid', 'fa-regular');
+  imageView = +event.target.getAttribute('data-view');
+  renderScreen(imageView);
+  $progressDot[imageView].classList.replace('fa-regular', 'fa-solid');
+  clearInterval(intervalId);
+  intervalId = setInterval(imgScrolling, intervalTimer);
 }
