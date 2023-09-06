@@ -31,9 +31,6 @@ const $progressDotsContainer = document.querySelector('.progress-dots-container'
 makeProgressDots();
 const $progressDot = document.querySelectorAll('.fa-circle');
 
-let states = [];
-let activities = [];
-
 $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
 $galleryContainer.addEventListener('click', showParkDetail);
@@ -204,7 +201,7 @@ function updateFilteredImg(event) {
 function getData() {
   showSpinner();
   // only want to keep National Parks, provide filter in the endpoint to only return specified parks. If we remove the filter we could get other things like historic sites or monuments
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,drto,ever,jeff,glac,grca,grte,grba,grsm,gumo,hale,havo,hosp,indu,isro,jotr,kefj,kova,lavo,maca,meve,mora,noca,olym,pefo,pinn,romo,sagu,shen,thro,viis,voya,whsa,wica,yell,yose'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,dena,drto,ever,gaar,jeff,glba,glac,grca,grte,grba,grsa,grsm,gumo,hale,havo,hosp,indu,isro,jotr,katm,kefj,kova,lacl,lavo,maca,meve,mora,neri,noca,npsa,olym,pefo,pinn,redw,romo,sagu,seki,shen,thro,viis,voya,whsa,wica,wrst,yell,yose,zion'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -218,14 +215,13 @@ function getData() {
       nationalParks.push(nationalPark); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
       uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       renderFirstImg(nationalPark, $galleryContainer);
-
       for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
         uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       }
     }
 
-    states = [...uniqueStates].sort();
-    activities = [...uniqueActivities].sort();
+    const states = [...uniqueStates].sort();
+    const activities = [...uniqueActivities].sort();
 
     for (let i = 0; i < states.length; i++) {
       const $option = document.createElement('option');
@@ -357,11 +353,7 @@ function showNextHomeScreen() {
   $progressDot[imageView].classList.replace('fa-regular', 'fa-solid');
 }
 
-function imgScrolling() {
-  setTimeout(showNextHomeScreen, 300);
-}
-
-let intervalId = setInterval(imgScrolling, intervalTimer);
+let intervalId = setInterval(showNextHomeScreen, intervalTimer);
 
 function goToSlide(event) {
   $progressDot[imageView].classList.replace('fa-solid', 'fa-regular');
@@ -369,5 +361,5 @@ function goToSlide(event) {
   renderScreen(imageView);
   $progressDot[imageView].classList.replace('fa-regular', 'fa-solid');
   clearInterval(intervalId);
-  intervalId = setInterval(imgScrolling, intervalTimer);
+  intervalId = setInterval(showNextHomeScreen, intervalTimer);
 }
