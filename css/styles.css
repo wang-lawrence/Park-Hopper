@@ -64,6 +64,58 @@ label {
   cursor: pointer;
 }
 
+.home-content-container {
+  color: white;
+  font-family: "Proza Libre", sans-serif;
+}
+
+.loading-button,
+.explore-button {
+  background-color: black;
+  color: white;
+  letter-spacing: 1px;
+  border: 3px solid white;
+  font-size: 1rem;
+}
+
+.explore-button:hover {
+  cursor: pointer;
+  background-color: black;
+  color: gray;
+  border: 3px solid gray;
+}
+
+.quote {
+  opacity: 0;
+  transition: all 1s ease-in-out;
+}
+
+.active.quote {
+  opacity: 1;
+}
+
+.item {
+  opacity: 0;
+  transition: all 3s ease-in-out;
+}
+
+.active.item {
+  opacity: 1;
+}
+
+.fa-circle:hover {
+  cursor: pointer;
+  font-size: large;
+}
+
+.fa-regular:hover {
+  color: #85cb33;
+}
+
+.fa-regular:active {
+  color: white;
+}
+
 .gallery-container img,
 .park-detail-img-container img {
   border-radius: 1rem;
@@ -212,4 +264,25 @@ label {
 .desktop-heart {
   margin-left: 1rem;
   font-size: 1.5rem;
+}
+
+.loader {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 0.15rem solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

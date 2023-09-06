@@ -41,8 +41,25 @@
     </nav>
   </header>
   <main>
+    <div data-view="home" class="">
+      <div class="hero-image-wrapper">
+        <div class="overlay"></div>
+        <div class="home-content-container">
+          <div class="quote-container">
+          </div>
+          <p class="explore">There are 63 designated National Parks in the US. Ready to explore?</p>
+          <button type="button" class="loading-button"><span class="loader"></span> Retrieving Parks...</button>
+          <button type="button" class="explore-button hidden">Explore Now</button>
+          <div class="row progress-dots-container justify-center">
+          </div>
+          <div class="park">
+            <p><em>Mount Rainier National Park, WA</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container-fluid">
-      <div data-view="gallery" class="">
+      <div data-view="gallery" class="hidden">
         <div class="row filters gx-9">
           <div class="col-sm-5 col-lg-6">
             <div class="row-end">
@@ -127,6 +144,7 @@
       </div>
     </div>
   </main>
+  <script src="js/carousel.js"></script>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>

@@ -1,3 +1,5 @@
+/* global carousel */
+
 const nationalParks = [];
 const $galleryContainer = document.querySelector('.gallery-container'); // query for the gallery container to add images to later
 const $stateDD = document.querySelector('#state');
@@ -19,9 +21,16 @@ const $savedParksImgContainer = document.querySelector('.saved-parks-img-contain
 const $noParkMsg = document.querySelector('.no-park-msg');
 const $noMatch = document.querySelector('.no-match');
 const $connectionError = document.querySelector('.connection-error');
-
-let states = [];
-let activities = [];
+const $homeView = document.querySelector('[data-view="home"]');
+const $parkHopperLogo = document.querySelector('.navbar-brand');
+const $exploreButton = document.querySelector('.explore-button');
+const $explorerButtonLoader = document.querySelector('.loading-button');
+const $heroImageWrapper = document.querySelector('.hero-image-wrapper');
+const $quoteContainer = document.querySelector('.quote-container');
+const $homeParkName = document.querySelector('.park em');
+const $progressDotsContainer = document.querySelector('.progress-dots-container');
+makeProgressDots();
+const $progressDot = document.querySelectorAll('.fa-circle');
 
 $stateDD.addEventListener('input', updateFilteredImg);
 $activtyDD.addEventListener('input', updateFilteredImg);
@@ -32,7 +41,11 @@ $saveListIcon.addEventListener('click', showSavedParks);
 $desktopHeart.addEventListener('click', updateFavoriteList);
 $mobileHeart.addEventListener('click', updateFavoriteList);
 $savedParksImgContainer.addEventListener('click', showParkDetail);
+$parkHopperLogo.addEventListener('click', showHomePage);
+$exploreButton.addEventListener('click', showGallery);
+$progressDotsContainer.addEventListener('click', goToSlide);
 
+renderAllScreens();
 getData();
 
 function removeSavedPark(event) {
@@ -82,6 +95,7 @@ function updateFavoriteList(event) {
 }
 
 function goBack(event) {
+  $homeView.classList.add('hidden');
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
@@ -89,15 +103,31 @@ function goBack(event) {
 }
 
 function goBackSavedParks(event) {
+  $homeView.classList.add('hidden');
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
 }
 
 function showSavedParks(event) {
+  $homeView.classList.add('hidden');
   $galleryView.classList.add('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.remove('hidden');
+}
+
+function showHomePage() {
+  $homeView.classList.remove('hidden');
+  $galleryView.classList.add('hidden');
+  $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
+}
+
+function showGallery() {
+  $homeView.classList.add('hidden');
+  $galleryView.classList.remove('hidden');
+  $parkDetailsView.classList.add('hidden');
+  $savedParksView.classList.add('hidden');
 }
 
 function showParkDetail(event) {
@@ -120,6 +150,7 @@ function showParkDetail(event) {
     $parkImgContainer.removeChild($parkImgContainer.firstChild);
   }
   renderAllImg(selParkObj, $parkImgContainer);
+  $homeView.classList.add('hidden');
   $galleryView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
   $parkDetailsView.classList.remove('hidden');
@@ -132,6 +163,15 @@ function showSpinner() {
 function hideSpinner() {
   $spinnerContainer.classList.add('hidden');
   $galleryContainer.classList.remove('hidden');
+}
+
+function showExplorerButtonLoader() {
+  $explorerButtonLoader.classList.remove('hidden');
+  $exploreButton.classList.add('hidden');
+}
+function hideExplorerButtonLoader() {
+  $explorerButtonLoader.classList.add('hidden');
+  $exploreButton.classList.remove('hidden');
 }
 
 function updateFilteredImg(event) {
@@ -169,9 +209,10 @@ function updateFilteredImg(event) {
 }
 
 function getData() {
+  showExplorerButtonLoader();
   showSpinner();
   // only want to keep National Parks, provide filter in the endpoint to only return specified parks. If we remove the filter we could get other things like historic sites or monuments
-  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,drto,ever,jeff,glac,grca,grte,grba,grsm,gumo,hale,havo,hosp,indu,isro,jotr,kefj,kova,lavo,maca,meve,mora,noca,olym,pefo,pinn,romo,sagu,shen,thro,viis,voya,whsa,wica,yell,yose'); // API endpoint for parks
+  const targetUrl = encodeURIComponent('https://developer.nps.gov/api/v1/parks?limit=469&parkCode=acad,arch,badl,bibe,bisc,blca,brca,cany,care,cave,chis,cong,crla,cuva,deva,dena,drto,ever,gaar,jeff,glba,glac,grca,grte,grba,grsa,grsm,gumo,hale,havo,hosp,indu,isro,jotr,katm,kefj,kova,lacl,lavo,maca,meve,mora,neri,noca,npsa,olym,pefo,pinn,redw,romo,sagu,seki,shen,thro,viis,voya,whsa,wica,wrst,yell,yose,zion'); // API endpoint for parks
   const xhr = new XMLHttpRequest();
   const uniqueStates = new Set();
   const uniqueActivities = new Set();
@@ -179,20 +220,20 @@ function getData() {
   xhr.setRequestHeader('X-Api-Key', 'HEqLaQkujBH0fhLzsow81gtPfMLkLEOvPOGHxx2j'); // add API key to the request header
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
+    hideExplorerButtonLoader();
     for (let i = 0; i < xhr.response.data.length; i++) {
       const trimmedParkName = xhr.response.data[i].name.replaceAll(' ', ''); // need to remove spaces in order to query DOM elements using data-park-name attributes
       const nationalPark = { ...xhr.response.data[i], name: trimmedParkName };
       nationalParks.push(nationalPark); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
       uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       renderFirstImg(nationalPark, $galleryContainer);
-
       for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
         uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       }
     }
 
-    states = [...uniqueStates].sort();
-    activities = [...uniqueActivities].sort();
+    const states = [...uniqueStates].sort();
+    const activities = [...uniqueActivities].sort();
 
     for (let i = 0; i < states.length; i++) {
       const $option = document.createElement('option');
@@ -211,7 +252,7 @@ function getData() {
     const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
 
-    setTimeout(hideSpinner, 5000);
+    setTimeout(hideSpinner, 1000);
     toggleErrorMessage(xhr.response.data);
   });
   xhr.send();
@@ -257,4 +298,80 @@ function toggleErrorMessage(parkResponse) {
   } else {
     $connectionError.classList.add('hidden');
   }
+}
+
+// carousel related functions
+
+let imageView = 0;
+const intervalTimer = 8000;
+
+// make the progress dots dynamic depending on number of images
+function makeProgressDots() {
+  for (let i = 0; i < carousel.length; i++) {
+    const $i = document.createElement('i');
+
+    if (i === 0) {
+      $i.className = 'fa-solid fa-circle';
+    } else {
+      $i.className = 'fa-regular fa-circle';
+    }
+
+    $i.setAttribute('data-view', `${i}`);
+    $progressDotsContainer.appendChild($i);
+  }
+}
+
+function renderAllScreens() {
+  for (let i = 0; i < carousel.length; i++) {
+    const $heroImg = document.createElement('img');
+    const $homeQuote = document.createElement('h4');
+    if (i === 0) {
+      $heroImg.className = 'item active';
+      $homeQuote.className = 'quote active';
+    } else {
+      $heroImg.className = 'item';
+      $homeQuote.className = 'quote';
+    }
+    const { quote, url } = carousel[i];
+    $heroImg.setAttribute('data-slider-item', `${i}`);
+    $heroImg.src = url;
+    $heroImageWrapper.appendChild($heroImg);
+    $homeQuote.setAttribute('data-slider-quote', `${i}`);
+    $homeQuote.textContent = quote;
+    $quoteContainer.appendChild($homeQuote);
+  }
+}
+
+function renderScreen(i) {
+  const $currentImg = document.querySelector('.active.item');
+  $currentImg.classList.remove('active');
+  const $nextImg = document.querySelector(`[data-slider-item = "${i}"]`);
+  $nextImg.classList.add('active');
+
+  const $currentQuote = document.querySelector('.quote.active');
+  $currentQuote.classList.remove('active');
+  const $nextQuote = document.querySelector(`[data-slider-quote = "${i}"]`);
+  $nextQuote.classList.add('active');
+  $homeParkName.textContent = carousel[i].park;
+}
+
+function showNextHomeScreen() {
+  $progressDot[imageView].classList.replace('fa-solid', 'fa-regular');
+  imageView++;
+  if (imageView >= carousel.length) {
+    imageView = 0;
+  }
+  renderScreen(imageView);
+  $progressDot[imageView].classList.replace('fa-regular', 'fa-solid');
+}
+
+let intervalId = setInterval(showNextHomeScreen, intervalTimer);
+
+function goToSlide(event) {
+  $progressDot[imageView].classList.replace('fa-solid', 'fa-regular');
+  imageView = +event.target.getAttribute('data-view');
+  renderScreen(imageView);
+  $progressDot[imageView].classList.replace('fa-regular', 'fa-solid');
+  clearInterval(intervalId);
+  intervalId = setInterval(showNextHomeScreen, intervalTimer);
 }
