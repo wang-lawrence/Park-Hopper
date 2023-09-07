@@ -269,11 +269,15 @@ function renderAllImg(parkObj, parent) {
 }
 
 function renderFirstImg(parkObj, parent) {
+  const $div = document.createElement('div');
   const $img = document.createElement('img');
+  const $h4 = document.createElement('h4');
+  $div.setAttribute('data-park-name', parkObj.name);
   $img.setAttribute('src', parkObj.images[0].url);
   $img.setAttribute('alt', `${parkObj.fullName} image`);
-  $img.setAttribute('data-park-name', parkObj.name);
-  parent.appendChild($img);
+  $h4.textContent = parkObj.fullName;
+  $div.append($img, $h4);
+  parent.appendChild($div);
 }
 
 function toggleNoSavedParksMessage() {
