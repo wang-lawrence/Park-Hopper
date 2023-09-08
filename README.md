@@ -21,18 +21,18 @@ Try the application live at [https://wang-lawrence.github.io/Park-Hopper/](https
 
 ## Features
 
-- User can view a gallery of national park images.
-- User can filter images based on state and/or activity.
-- User can select an image and view more details about the park.
-- User can save parks to a favorites list.
-- User can delete parks from the favorites list.
+- Users can view a gallery of national park images.
+- Users can filter images based on state and/or activity.
+- Users can select an image and view more details about the park.
+- Users can save parks to a favorites list.
+- Users can delete parks from the favorites list.
 
 ## Preview
 
-### User can view details of the park
+### Users can view details of the park
 ![View Park Detail](/view-park-details.gif "View park details")
 
-### User can save and remove park from favorites
+### Users can save and remove park from favorites
 ![Save to Favorite](/save-to-favorites.gif "Save park to favorites")
 
 ## Future Stretch Features
