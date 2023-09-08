@@ -46,6 +46,7 @@ $progressDotsContainer.addEventListener('click', goToSlide);
 $loadMore.addEventListener('click', loadMore);
 
 const nationalParks = [];
+let galleryScroll = 0;
 // parameter for gallery pagination
 let pageItems = []; // contains national park objects
 let page = 1;
@@ -106,6 +107,7 @@ function goBack(event) {
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
   data.currentPark = null;
+  window.scrollTo(0, galleryScroll);
 }
 
 function goBackSavedParks(event) {
@@ -113,6 +115,7 @@ function goBackSavedParks(event) {
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
+  window.scrollTo(0, galleryScroll);
 }
 
 function showSavedParks(event) {
@@ -137,6 +140,7 @@ function showGallery() {
 }
 
 function showParkDetail(event) {
+  galleryScroll = window.scrollY;
   const selParkName = event.target.closest('[data-park-name]').getAttribute('data-park-name');
   const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
   data.currentPark = selParkObj;
