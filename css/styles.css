@@ -118,7 +118,9 @@ label {
 
 .gallery-container img,
 .park-detail-img-container img {
-  border-radius: 1rem;
+  border-radius: 0.2rem;
+  background-color: black;
+  transition: filter 0.1s;
 }
 
 .saved-card {
@@ -153,9 +155,38 @@ label {
   right: 1rem;
 }
 
-.gallery-container img:hover {
+.gallery-container div:hover img {
   cursor: pointer;
-  border: 1px solid gray;
+  filter: brightness(40%);
+}
+
+.gallery-container h4 {
+  font-family: "Proza Libre", sans-serif;
+  font-weight: bold;
+  font-size: medium;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.gallery-container div:hover h4 {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.load-more button {
+  width: 20rem;
+  height: 2rem;
+  border-radius: 5px;
+  border: 1px solid #a5cbc3;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+.load-more button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: #a5cbc3;
 }
 
 .background-dark {

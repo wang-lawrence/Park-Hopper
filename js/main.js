@@ -1,7 +1,6 @@
 /* global carousel */
-
-const nationalParks = [];
 const $galleryContainer = document.querySelector('.gallery-container'); // query for the gallery container to add images to later
+const $loadMore = document.querySelector('.load-more');
 const $stateDD = document.querySelector('#state');
 const $activtyDD = document.querySelector('#activity');
 const $spinnerContainer = document.querySelector('.spinner-container');
@@ -44,6 +43,14 @@ $savedParksImgContainer.addEventListener('click', showParkDetail);
 $parkHopperLogo.addEventListener('click', showHomePage);
 $exploreButton.addEventListener('click', showGallery);
 $progressDotsContainer.addEventListener('click', goToSlide);
+$loadMore.addEventListener('click', loadMore);
+
+const nationalParks = [];
+let galleryScroll = 0;
+// parameter for gallery pagination
+let pageItems = []; // contains national park objects
+let page = 1;
+let itemsPerLoad = 18;
 
 renderAllScreens();
 getData();
@@ -100,6 +107,7 @@ function goBack(event) {
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
   data.currentPark = null;
+  window.scrollTo(0, galleryScroll);
 }
 
 function goBackSavedParks(event) {
@@ -107,6 +115,7 @@ function goBackSavedParks(event) {
   $galleryView.classList.remove('hidden');
   $parkDetailsView.classList.add('hidden');
   $savedParksView.classList.add('hidden');
+  window.scrollTo(0, galleryScroll);
 }
 
 function showSavedParks(event) {
@@ -131,6 +140,7 @@ function showGallery() {
 }
 
 function showParkDetail(event) {
+  galleryScroll = window.scrollY;
   const selParkName = event.target.closest('[data-park-name]').getAttribute('data-park-name');
   const selParkObj = nationalParks.filter(obj => obj.name === selParkName)[0];
   data.currentPark = selParkObj;
@@ -201,9 +211,10 @@ function updateFilteredImg(event) {
     }
   });
 
-  for (let i = 0; i < parksFilteredActivity.length; i++) {
-    renderFirstImg(parksFilteredActivity[i], $galleryContainer);
-  }
+  pageItems = parksFilteredActivity;
+  page = 1;
+  itemsPerLoad = 30; // increase item counts to avoid excessive loading more action
+  loadMore();
 
   toggleNoMatchMessage(parksFilteredActivity);
 }
@@ -226,7 +237,6 @@ function getData() {
       const nationalPark = { ...xhr.response.data[i], name: trimmedParkName };
       nationalParks.push(nationalPark); // add all the National Park data objects to parks, may need to add this to a data object in the other file later
       uniqueStates.add(...xhr.response.data[i].states.split(',')); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
-      renderFirstImg(nationalPark, $galleryContainer);
       for (let k = 0; k < xhr.response.data[i].activities.length; k++) {
         uniqueActivities.add(xhr.response.data[i].activities[k].name); // add each state to the Set object, Set only holds unique item and duplicate items won't be added
       }
@@ -249,6 +259,9 @@ function getData() {
       $activtyDD.appendChild($option);
     }
 
+    pageItems = nationalParks; // set initial page items to all the national parks, this will be updated when filters are changed
+    loadMore();
+
     const parksJSON = JSON.stringify(nationalParks);
     localStorage.setItem('parks', parksJSON);
 
@@ -269,11 +282,15 @@ function renderAllImg(parkObj, parent) {
 }
 
 function renderFirstImg(parkObj, parent) {
+  const $div = document.createElement('div');
   const $img = document.createElement('img');
+  const $h4 = document.createElement('h4');
+  $div.setAttribute('data-park-name', parkObj.name);
   $img.setAttribute('src', parkObj.images[0].url);
   $img.setAttribute('alt', `${parkObj.fullName} image`);
-  $img.setAttribute('data-park-name', parkObj.name);
-  parent.appendChild($img);
+  $h4.textContent = parkObj.fullName;
+  $div.append($img, $h4);
+  parent.appendChild($div);
 }
 
 function toggleNoSavedParksMessage() {
@@ -298,6 +315,21 @@ function toggleErrorMessage(parkResponse) {
   } else {
     $connectionError.classList.add('hidden');
   }
+}
+
+function loadMore() {
+  const startIndex = (page - 1) * itemsPerLoad;
+  const endIndex = startIndex + itemsPerLoad;
+  const nextLoadBatch = pageItems.slice(startIndex, endIndex);
+  for (let i = 0; i < nextLoadBatch.length; i++) {
+    renderFirstImg(nextLoadBatch[i], $galleryContainer);
+  }
+  if (pageItems.length <= page * itemsPerLoad) {
+    $loadMore.classList.add('hidden');
+  } else {
+    $loadMore.classList.remove('hidden');
+  }
+  page++;
 }
 
 // carousel related functions
